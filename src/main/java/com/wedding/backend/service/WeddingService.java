@@ -32,7 +32,7 @@ public class WeddingService {
     @Autowired
     private CloudinaryService cloudinaryService;
 
-    public Wedding createWedding(String title, MultipartFile coverImage) throws IOException {
+    public WeddingResponse createWedding(String title, MultipartFile coverImage) throws IOException {
         String email = ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
         User user = userRepository.findByEmail(email).orElseThrow();
 
@@ -50,7 +50,8 @@ public class WeddingService {
                 .user(user)
                 .build();
 
-        return weddingRepository.save(wedding);
+        Wedding savedWedding = weddingRepository.save(wedding);
+        return mapToResponse(savedWedding);
     }
 
     public List<WeddingResponse> getMyWeddings() {

@@ -23,8 +23,8 @@ public class WeddingController {
     public ResponseEntity<?> createWedding(
             @RequestParam("title") String title,
             @RequestParam(value = "coverImage", required = false) MultipartFile coverImage) throws IOException {
-        Wedding wedding = weddingService.createWedding(title, coverImage);
-        return ResponseEntity.ok(wedding);
+        WeddingResponse weddingResponse = weddingService.createWedding(title, coverImage);
+        return ResponseEntity.ok(weddingResponse);
     }
 
     @GetMapping("/weddings/my")
