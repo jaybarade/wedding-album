@@ -1,6 +1,7 @@
 package com.wedding.backend.entity;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import java.util.List;
@@ -21,9 +22,11 @@ public class User {
     @Email
     private String email;
 
+    @JsonIgnore
     @NotBlank
     private String password;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Wedding> weddings;
 

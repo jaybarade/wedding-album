@@ -1,6 +1,7 @@
 package com.wedding.backend.entity;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotBlank;
 import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
@@ -15,6 +16,7 @@ public class Wedding {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -32,6 +34,7 @@ public class Wedding {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "wedding", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Photo> photos;
 
