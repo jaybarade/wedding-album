@@ -50,11 +50,22 @@ public class PhotoService {
                 .build();
     }
 
-    public UploadResponse uploadMultiplePhotos(Long weddingId, MultipartFile[] files) {
+    public UploadResponse uploadMultiplePhotos(Long weddingId, MultipartFile[] files, MultipartFile musicFile) {
         Wedding wedding = weddingRepository.findById(weddingId)
                 .orElseThrow(() -> new RuntimeException("Wedding not found"));
 
         String folder = "weddings/" + weddingId;
+
+        // Handle Music Upload
+        if (musicFile != null && !musicFile.isEmpty()) {
+            try {
+                String musicUrl = cloudinaryService.uploadAudio(musicFile, folder + "/music");
+                wedding.setMusicUrl(musicUrl);
+                weddingRepository.save(wedding);
+            } catch (IOException e) {
+                System.err.println("Failed to upload music: " + e.getMessage());
+            }
+        }
 
         List<CompletableFuture<String>> futures = Arrays.stream(files)
                 .map(file -> CompletableFuture.supplyAsync(() -> {
@@ -84,6 +95,7 @@ public class PhotoService {
                 .data(successfulUrls)
                 .build();
     }
+
 
     public List<PhotoResponse> getPhotosByWedding(Long weddingId) {
         return photoRepository.findByWeddingId(weddingId).stream()

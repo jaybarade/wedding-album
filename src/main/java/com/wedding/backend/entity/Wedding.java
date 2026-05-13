@@ -26,6 +26,8 @@ public class Wedding {
     private String slug;
 
     private String coverImage;
+    private String musicUrl;
+
 
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -35,12 +37,14 @@ public class Wedding {
 
     public Wedding() {}
 
-    public Wedding(String title, String slug, String coverImage, User user) {
+    public Wedding(String title, String slug, String coverImage, String musicUrl, User user) {
         this.title = title;
         this.slug = slug;
         this.coverImage = coverImage;
+        this.musicUrl = musicUrl;
         this.user = user;
     }
+
 
     // Getters and Setters
     public Long getId() { return id; }
@@ -58,6 +62,10 @@ public class Wedding {
     public String getCoverImage() { return coverImage; }
     public void setCoverImage(String coverImage) { this.coverImage = coverImage; }
 
+    public String getMusicUrl() { return musicUrl; }
+    public void setMusicUrl(String musicUrl) { this.musicUrl = musicUrl; }
+
+
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 
@@ -72,14 +80,17 @@ public class Wedding {
         private String title;
         private String slug;
         private String coverImage;
+        private String musicUrl;
         private User user;
 
         public WeddingBuilder title(String title) { this.title = title; return this; }
         public WeddingBuilder slug(String slug) { this.slug = slug; return this; }
         public WeddingBuilder coverImage(String coverImage) { this.coverImage = coverImage; return this; }
+        public WeddingBuilder musicUrl(String musicUrl) { this.musicUrl = musicUrl; return this; }
         public WeddingBuilder user(User user) { this.user = user; return this; }
         public Wedding build() {
-            return new Wedding(title, slug, coverImage, user);
+            return new Wedding(title, slug, coverImage, musicUrl, user);
         }
+
     }
 }

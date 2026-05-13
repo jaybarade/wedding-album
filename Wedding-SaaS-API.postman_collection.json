@@ -243,7 +243,58 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Upload Multiple Photos",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "weddingId",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "files",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "music",
+									"type": "file",
+									"src": [],
+									"description": "Optional MP3 file"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/photos/upload-multiple",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"photos",
+								"upload-multiple"
+							]
+						}
+					},
+					"response": []
 				}
+
 			]
 		}
 	],

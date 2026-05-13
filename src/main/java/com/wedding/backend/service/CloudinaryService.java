@@ -38,11 +38,18 @@ public class CloudinaryService {
     }
 
     public String uploadImage(MultipartFile file, String folder) throws IOException {
-        Map options = ObjectUtils.emptyMap();
-        if (folder != null && !folder.isEmpty()) {
-            options = ObjectUtils.asMap("folder", folder);
-        }
+        Map options = ObjectUtils.asMap("folder", folder);
+        Map uploadResult = cloudinary.uploader().upload(file.getBytes(), options);
+        return uploadResult.get("secure_url").toString();
+    }
+
+    public String uploadAudio(MultipartFile file, String folder) throws IOException {
+        Map options = ObjectUtils.asMap(
+                "folder", folder,
+                "resource_type", "auto"
+        );
         Map uploadResult = cloudinary.uploader().upload(file.getBytes(), options);
         return uploadResult.get("secure_url").toString();
     }
 }
+

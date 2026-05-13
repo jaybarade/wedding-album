@@ -8,19 +8,23 @@ public class WeddingResponse {
     private String title;
     private String slug;
     private String coverImage;
+    private String musicUrl;
     private LocalDateTime createdAt;
+
     private List<PhotoResponse> photos;
 
     public WeddingResponse() {}
 
-    public WeddingResponse(Long id, String title, String slug, String coverImage, LocalDateTime createdAt, List<PhotoResponse> photos) {
+    public WeddingResponse(Long id, String title, String slug, String coverImage, String musicUrl, LocalDateTime createdAt, List<PhotoResponse> photos) {
         this.id = id;
         this.title = title;
         this.slug = slug;
         this.coverImage = coverImage;
+        this.musicUrl = musicUrl;
         this.createdAt = createdAt;
         this.photos = photos;
     }
+
 
     // Getters and Setters
     public Long getId() { return id; }
@@ -34,6 +38,10 @@ public class WeddingResponse {
 
     public String getCoverImage() { return coverImage; }
     public void setCoverImage(String coverImage) { this.coverImage = coverImage; }
+
+    public String getMusicUrl() { return musicUrl; }
+    public void setMusicUrl(String musicUrl) { this.musicUrl = musicUrl; }
+
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
@@ -50,6 +58,7 @@ public class WeddingResponse {
         private String title;
         private String slug;
         private String coverImage;
+        private String musicUrl;
         private LocalDateTime createdAt;
         private List<PhotoResponse> photos;
 
@@ -57,10 +66,12 @@ public class WeddingResponse {
         public WeddingResponseBuilder title(String title) { this.title = title; return this; }
         public WeddingResponseBuilder slug(String slug) { this.slug = slug; return this; }
         public WeddingResponseBuilder coverImage(String coverImage) { this.coverImage = coverImage; return this; }
+        public WeddingResponseBuilder musicUrl(String musicUrl) { this.musicUrl = musicUrl; return this; }
         public WeddingResponseBuilder createdAt(LocalDateTime createdAt) { this.createdAt = createdAt; return this; }
         public WeddingResponseBuilder photos(List<PhotoResponse> photos) { this.photos = photos; return this; }
         public WeddingResponse build() {
-            return new WeddingResponse(id, title, slug, coverImage, createdAt, photos);
+            return new WeddingResponse(id, title, slug, coverImage, musicUrl, createdAt, photos);
         }
+
     }
 }

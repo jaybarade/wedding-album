@@ -80,7 +80,9 @@ public class WeddingService {
                 .title(wedding.getTitle())
                 .slug(wedding.getSlug())
                 .coverImage(wedding.getCoverImage())
+                .musicUrl(wedding.getMusicUrl())
                 .createdAt(wedding.getCreatedAt())
+
                 .photos(wedding.getPhotos() != null ? wedding.getPhotos().stream()
                         .map(photo -> PhotoResponse.builder()
                                 .id(photo.getId())

@@ -29,25 +29,38 @@ public class PhotoController {
     @PostMapping("/upload-multiple")
     public ResponseEntity<UploadResponse> uploadMultiplePhotos(
             @RequestParam("weddingId") Long weddingId,
-            @RequestParam("files") MultipartFile[] files) {
+            @RequestParam("files") MultipartFile[] files,
+            @RequestParam(value = "music", required = false) MultipartFile musicFile) {
         
         // Validation: Only allow image types (jpg, jpeg, png)
-        List<String> allowedTypes = Arrays.asList("image/jpeg", "image/jpg", "image/png");
+        List<String> allowedImageTypes = Arrays.asList("image/jpeg", "image/jpg", "image/png");
 
         boolean allImages = Arrays.stream(files).allMatch(file -> {
             String type = file.getContentType();
-            return type == null || allowedTypes.contains(type.toLowerCase());
+            return type == null || allowedImageTypes.contains(type.toLowerCase());
         });
 
         if (!allImages) {
             return ResponseEntity.badRequest().body(UploadResponse.builder()
                     .status(false)
-                    .message("Invalid file type. Only JPG, JPEG, and PNG are allowed.")
+                    .message("Invalid image type. Only JPG, JPEG, and PNG are allowed.")
                     .build());
         }
 
-        return ResponseEntity.ok(photoService.uploadMultiplePhotos(weddingId, files));
+        // Music Validation: Only allow MP3
+        if (musicFile != null && !musicFile.isEmpty()) {
+            String musicType = musicFile.getContentType();
+            if (musicType == null || !musicType.toLowerCase().equals("audio/mpeg")) {
+                return ResponseEntity.badRequest().body(UploadResponse.builder()
+                        .status(false)
+                        .message("Invalid music file type. Only MP3 is allowed.")
+                        .build());
+            }
+        }
+
+        return ResponseEntity.ok(photoService.uploadMultiplePhotos(weddingId, files, musicFile));
     }
+
 
     @GetMapping("/{weddingId}")
     public ResponseEntity<List<PhotoResponse>> getPhotos(@PathVariable Long weddingId) {
