@@ -46,10 +46,11 @@ public class CloudinaryService {
     public String uploadAudio(MultipartFile file, String folder) throws IOException {
         Map options = ObjectUtils.asMap(
                 "folder", folder,
-                "resource_type", "auto"
+                "resource_type", "video"
         );
         Map uploadResult = cloudinary.uploader().upload(file.getBytes(), options);
         return uploadResult.get("secure_url").toString();
     }
+
 }
 

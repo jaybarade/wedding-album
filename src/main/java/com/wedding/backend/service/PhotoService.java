@@ -18,8 +18,12 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
+import org.springframework.transaction.annotation.Transactional;
+
 @Service
+@Transactional
 public class PhotoService {
+
     @Autowired
     private PhotoRepository photoRepository;
 
@@ -56,16 +60,17 @@ public class PhotoService {
 
         String folder = "weddings/" + weddingId;
 
-        // Handle Music Upload
+        String musicUrl = null;
         if (musicFile != null && !musicFile.isEmpty()) {
             try {
-                String musicUrl = cloudinaryService.uploadAudio(musicFile, folder + "/music");
+                musicUrl = cloudinaryService.uploadAudio(musicFile, folder + "/music");
                 wedding.setMusicUrl(musicUrl);
                 weddingRepository.save(wedding);
             } catch (IOException e) {
                 System.err.println("Failed to upload music: " + e.getMessage());
             }
         }
+
 
         List<CompletableFuture<String>> futures = Arrays.stream(files)
                 .map(file -> CompletableFuture.supplyAsync(() -> {
@@ -93,8 +98,10 @@ public class PhotoService {
                 .status(true)
                 .message("Upload completed. Successfully uploaded " + successfulUrls.size() + " out of " + files.length + " files.")
                 .data(successfulUrls)
+                .musicUrl(wedding.getMusicUrl())
                 .build();
     }
+
 
 
     public List<PhotoResponse> getPhotosByWedding(Long weddingId) {
